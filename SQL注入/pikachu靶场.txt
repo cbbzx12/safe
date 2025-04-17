@@ -1,0 +1,5 @@
+启动皮卡丘
+docker run -d --rm --name pikachu -p 8080:80 -p 3306:3306 area39/pikachu
+查看MySQL 
+docker exec -it confident_fermi bash
+mysql -u root

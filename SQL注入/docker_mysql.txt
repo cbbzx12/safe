@@ -1,0 +1,19 @@
+docker run -d \
+  --name mysql_live \
+  --network sqli_network \
+  -p 3307:3306 \
+  -v /opt/mysql/data:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=123456 \
+  mysql:latest
+  
+  
+  
+  docker run -d --name mysql_5.7 \
+  --rm \
+  --network sqli_network \
+  -p 3307:3306 \
+  -e MYSQL_ROOT_PASSWORD=123456 \
+  mysql:5.7
+  
+  
+  docker exec -it mysql_5.7 mysql -u root -p123456

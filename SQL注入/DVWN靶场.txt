@@ -1,0 +1,28 @@
+3. 运行DVWA容器
+使用以下命令启动DVWA容器：
+docker run --rm -it --network host citizenstig/dvwa
+--rm：容器停止后自动删除。
+-it：以交互模式运行容器。
+-p 80:80：将容器的80端口映射到主机的80端口。
+如果需要后台运行，可以加上-d参数：
+docker run -d --name dvwa -p 80:80 vulnerables/web-dvwa
+4. 访问DVWA
+打开浏览器，输入以下地址访问DVWA：
+ http://localhost/
+如果看到DVWA的登录页面，说明部署成功。
+5. 初始化数据库
+在登录页面中，点击“Setup / Reset DB”按钮，初始化数据库。如果一切正常，你会看到“Setup successful”的提示。
+6. 登录DVWA
+使用默认的用户名和密码登录：
+用户名：admin
+密码：password
+7. 配置安全级别
+登录后，点击左侧菜单中的“DVWA Security”选项，设置安全级别。你可以选择“Low”、“Medium”、“High”或“Impossible”等级别，以测试不同的安全场景。
+8. 停止和删除容器
+如果需要停止容器，可以使用以下命令：
+docker stop dvwa
+如果需要删除容器，可以使用：
+Bash
+docker rm dvwa
+注意事项
+如果端口冲突，可以修改-p参数，例如将主机的8080端口映射到容器的80端口：-p 8080:80

@@ -1,0 +1,6 @@
+使用
+docker run -it --rm \
+  -v /usr/share/seclists:/usr/share/seclists \
+  -v /root/Desktop/scan_results:/dirsearch/results \
+  dirsearch:v0.4.3 \
+  python3 dirsearch.py -u http://qq.com -e php,html,js,json -w /usr/share/seclists/Discovery/Web-Content/big.txt -t 10 -F -i 200,02  -o /dirsearch/results/output.txt 

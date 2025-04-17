@@ -1,0 +1,66 @@
+运行SQLi-Labs容器
+启动容器并将容器端口映射到主机端口：
+-dt：后台运行容器。
+--name sqli-labs：为容器命名。
+-p 80:80：将容器的80端口映射到主机的80端口。
+--rm：容器退出时自动清理文件系统。
+docker run -d \
+  --name sqli-labs \
+   --rm \
+  --network sqli_network \
+  -p 80:80 \
+  acgpiano/sqli-labs
+查看容器是否运行：
+docker ps
+5. 访问SQLi-Labs
+在浏览器中输入Kali Linux的IP地址，例如 http://<Kali-IP>，即可访问SQLi-Labs靶场。
+按照页面提示初始化数据库，点击“Setup/reset Database for labs”即可完成初始化。
+6. 其他常用Docker命令
+进入运行中的容器：
+docker exec -it <容器ID> /bin/bash
+停止容器：
+docker stop sqli-labs
+启动已停止的容器：
+docker start sqli-labs
+删除容器：
+docker rm sqli-labs
+################################################################################
+2. 修改 db-creds.inc 配置
+进入 sqli-labs 容器，编辑数据库配置文件：
+
+Bash
+docker exec -it sqli-labs bash
+# 找到配置文件（路径通常为 /var/www/html/sql-connections/db-creds.inc）
+vi /var/www/html/sql-connections/db-creds.inc
+修改 host 字段为 MySQL 容器名称 mysql_live（需在同一网络下）：
+
+PHP
+<?php
+$dbuser = 'root';
+$dbpass = '123456';
+$host = 'mysql_5.7';  // 使用容器名（需在同一Docker网络）
+$dbname = 'security';
+?>
+3. 验证 MySQL 容器可访问性
+在 sqli-labs 容器内测试网络连通性：
+
+Bash
+# 进入 sqli-labs 容器
+docker exec -it sqli-labs bash
+
+# 安装网络工具并测试连接
+apt update && apt install -y iputils-ping
+ping mysql_live  # 应返回容器 IP
+
+# 测试 MySQL 端口连通性
+telnet mysql_live 3306  # 若返回 Connected 则网络正常
+4. 调整 MySQL 用户权限（关键步骤）
+确保 MySQL 允许远程连接，并修复认证插件问题（MySQL 8 默认使用 caching_sha2_password，旧版 PHP 可能不支持）：
+
+Bash
+# 进入 MySQL 容器命令行
+docker exec -it mysql_live mysql -u root -p123456
+
+# 修改 root 用户认证方式
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+FLUSH PRIVILEGES;
