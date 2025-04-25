@@ -1,0 +1,1 @@
+docker run -d --name=ctf-wiki -p 4100:80 ctfwiki/ctf-wiki

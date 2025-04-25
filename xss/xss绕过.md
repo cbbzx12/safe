@@ -1,6 +1,6 @@
 # XSS绕过总结
 
-## 分类
+## 一、分类
 
 ```php
 反射性XSS
@@ -15,8 +15,6 @@ DOM型XSS
    ```php
    攻击者通过电子邮件等方式将包含XSS代码的恶意链接发送给目标用户。当目标用户访问该链接时，服务器接受该目标用户的请求并进行处理，然后服务器把带有XSS的代码发送给目标用户的浏览器，浏览器解析这段带有XSS代码的恶意脚本后，就会触发XSS漏洞。
    ```
-
-   
 
 2. 攻击步骤
 
@@ -86,13 +84,13 @@ DOM型XSS
 2. 在服务端使用HTTP的Content-Security-Policy头部来指定策略，或者在前端设置meta标答。例如只允许加载同域下的资源
 3. 应对XSS攻击的主要手段还是编码与过滤两种，编码用于将特殊的符号 "<、>、&、'、""进行**html转义**，而过滤则是阻止特定的标记、属性、事件。
 
-## 攻击荷载
+## 二、攻击荷载
 
 ### script标签
 
-<script> 标签用于定义客户端脚本
 
 ```html
+<script> 标签用于定义客户端脚本
 <script>alert("xss")</script>             
 <script>alert(/xss/)</script>                             
 <script>alert(document.cookie)</script>   
@@ -269,7 +267,7 @@ DOM型XSS
 <p onmouseup="alert('xss');">xss</p>
 ```
 
-## 绕过思路
+## 三、绕过思路
 
 ### 过滤 危险字符& < > " ' /
 
